@@ -1,0 +1,59 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("postgres_url")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+}
+model User {
+  id       Int       @id @default(autoincrement())
+  signup   DateTime  @default(now())
+  clerkID  String?   @unique
+  workouts Workout[] @relation(name: "UserToWorkout")
+}
+
+model Element {
+  elementId      Int             @id @default(autoincrement())
+  name           String
+  desc           String?
+  uri            String
+  workoutelement WorkoutElement? @relation(name: "ElementToWorkoutElement")
+}
+
+model WorkoutElement {
+  sets             Int
+  reps             Int
+  weight           Decimal
+  time             Decimal
+  restTime         Decimal
+  order            Int
+  notes            String? 
+  workout          Workout[] @relation(name: "WorkoutToWorkoutElement")
+  // connect to element
+  element          Element   @relation(name: "ElementToWorkoutElement", fields: [elementId], references: [elementId])
+  elementId        Int       @unique
+  WorkoutElementID Int       @id @unique @default(autoincrement())
+}
+
+model Workout {
+  workoutId Int                @id @default(autoincrement())
+  name      String
+  desc      String?
+  time      Decimal
+  restTime  Decimal
+  preMade   Boolean
+  private   Boolean
+  user      User               @relation(name: "UserToWorkout", fields: [workoutId], references: [id])
+  created   DateTime           @default(now())
+  updated   DateTime           @default(now())
+  elements  WorkoutElement[]   @relation(name: "WorkoutToWorkoutElement")
+  completed CompletedWorkout[] @relation(name: "CompletedWorkoutToWorkout")
+}
+
+model CompletedWorkout {
+  id       Int      @id @default(autoincrement())
+  dateTime DateTime @default(now())
+  time     DateTime
+  workout  Workout  @relation(name: "CompletedWorkoutToWorkout", fields: [id], references: [workoutId])
+}
