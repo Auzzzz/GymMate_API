@@ -2,7 +2,8 @@
   "name": "checkoutAPI",
   "version": "1.0.0",
   "scripts": {
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "start":  "node dist/index.js"
   },
   "dependencies": {
     "@prisma/client": "^5.16.2",

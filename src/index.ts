@@ -8,7 +8,7 @@ const prisma = new PrismaClient()
 const app = express()
 const port = process.env.APP_PORT || 5000
 
-app.use(cors({ origin: 'http://localhost:*' }))
+app.use(cors())
 app.use(express.json())
 app.use(routes)
 
