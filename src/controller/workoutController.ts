@@ -6,10 +6,11 @@ const prisma = new PrismaClient();
 // Get a user id off the request and return all workouts associated with that user
 export const getUserWorkouts = async (req: Request, res: Response) => {
   //TODO: add actual user id
-  const userId = req.params.userId;
+  console.log(req)
+  const userId = req.params.id;
   try {
     const result = await prisma.user.findMany({
-      where: { clerkID: "1234abcd" },
+      where: { clerkID: userId },
       include: { workouts: true },
     });
 
@@ -22,7 +23,7 @@ export const getUserWorkouts = async (req: Request, res: Response) => {
 
 // Get a workout id off the request and return the workout and its elements w/ details
 export const getIndividualWorkout = async (req: Request, res: Response) => {
-  const workoutId = req.params.workoutId;
+  const workoutId = req.params.id;
   try {
     const result = await prisma.workout.findUnique({
       where: { workoutId: 1 },
@@ -38,7 +39,7 @@ export const getIndividualWorkout = async (req: Request, res: Response) => {
 // Get a search term off the request and return workouts that match that search term
 export const getWorkoutsSearch = async (req: Request, res: Response) => {
 
-    // const searchTerm = req.params.searchTerm;
+    // const searchTerm = req.body.searchTerm;
     const searchTerm = "Test Workout";
     try {
       const result = await prisma.workout.findMany({
@@ -56,7 +57,7 @@ export const getWorkoutsSearch = async (req: Request, res: Response) => {
 
 // Get a search term off the request and return elements that match that search term
 export const getElements = async (req: Request, res: Response) => {
-  // const searchTerm = req.params.searchTerm;
+  // const searchTerm = req.body.searchTerm;
   const searchTerm = "Another One";
   try {
     const result = await prisma.element.findMany({

@@ -6,8 +6,15 @@ export const searchSchema = z.object({
   }),
 });
 
-export const idSchema = z.object({
+export const slugSchema = z.object({
   params: z.object({
-    id: z.number().int(),
+    id: z.string(),
   }),
 });
+
+export const idSchema = z.object({
+    params: z.object({
+      id: z.number().int(),
+    }),
+  });
+  
